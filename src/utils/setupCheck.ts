@@ -41,7 +41,9 @@ const setupCheck = () => {
 
     if (typeof appName === "undefined" || appName.length < 1) {
       throw Error(
-        `---> App Name is ${appName.length < 1 ? "not entered properly" : "undefined"}.`
+        `---> App Name is ${
+          appName && appName.length < 1 ? "not entered properly" : "undefined"
+        }.`
       );
     }
     if (typeof appHandle === "undefined") {
@@ -74,7 +76,7 @@ const setupCheck = () => {
 
     console.log("--> Setup checks passed successfully.");
   } catch (e) {
-    console.error(e.message);
+    console.error((e as Error).message);
   }
 };
 

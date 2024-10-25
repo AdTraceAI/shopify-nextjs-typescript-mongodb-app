@@ -1,4 +1,5 @@
-import isInitialLoad from "@/utils/middleware/isInitialLoad";
+import { NextPageContext } from "next";
+import { useRouter } from "next/router";
 import {
   BlockStack,
   Button,
@@ -9,12 +10,7 @@ import {
   Text,
 } from "@shopify/polaris";
 import { ExternalIcon } from "@shopify/polaris-icons";
-import { useRouter } from "next/router";
-
-export async function getServerSideProps(context) {
-  //DO NOT REMOVE THIS.
-  return await isInitialLoad(context);
-}
+import isInitialLoad from "@/utils/middleware/isInitialLoad";
 
 const HomePage = () => {
   const router = useRouter();
@@ -31,7 +27,7 @@ const HomePage = () => {
                   <Text as="h2" variant="headingMd">
                     Debug Cards
                   </Text>
-                  <Text>
+                  <Text as="p">
                     Explore how the repository handles data fetching from the
                     backend, App Proxy, making GraphQL requests, Billing API and
                     more.
@@ -56,7 +52,9 @@ const HomePage = () => {
                 <Text as="h2" variant="headingMd">
                   App Bridge CDN
                 </Text>
-                <Text>AppBridge has moved from an npm package to CDN</Text>
+                <Text as="p">
+                  AppBridge has moved from an npm package to CDN
+                </Text>
                 <InlineStack wrap={false} align="end">
                   <Button
                     variant="primary"
@@ -81,7 +79,7 @@ const HomePage = () => {
                 <Text as="h2" variant="headingMd">
                   Repository
                 </Text>
-                <Text>
+                <Text as="p">
                   Found a bug? Open an issue on the repository, or star on
                   GitHub
                 </Text>
@@ -121,7 +119,7 @@ const HomePage = () => {
                 <Text as="h2" variant="headingMd">
                   Course
                 </Text>
-                <Text>
+                <Text as="p">
                   [BETA] I'm building course as a live service on How To Build
                   Shopify Apps
                 </Text>
@@ -151,3 +149,8 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+export async function getServerSideProps(context: NextPageContext) {
+  //DO NOT REMOVE THIS.
+  return await isInitialLoad(context);
+}

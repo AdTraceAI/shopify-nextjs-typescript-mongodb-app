@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 import "@shopify/shopify-api/adapters/node";
-import setupCheck from "./utils/setupCheck.js";
+import setupCheck from "./src/utils/setupCheck";
 
 setupCheck();
 

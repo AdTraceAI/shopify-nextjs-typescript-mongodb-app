@@ -1,21 +1,31 @@
-import { LogSeverity, shopifyApi } from "@shopify/shopify-api";
+import {
+  LogSeverity,
+  shopifyApi,
+  Shopify,
+  ApiVersion,
+} from "@shopify/shopify-api";
 import "@shopify/shopify-api/adapters/node";
 import appUninstallHandler from "./webhooks/app_uninstalled.js";
+import { WebhookSubscription } from "@/_developer/types";
 
 const isDev = process.env.NODE_ENV === "development";
 
-// Setup Shopify configuration
-let shopify = shopifyApi({
-  apiKey: process.env.SHOPIFY_API_KEY,
-  apiSecretKey: process.env.SHOPIFY_API_SECRET,
-  scopes: process.env.SHOPIFY_API_SCOPES,
-  hostName: process.env.SHOPIFY_APP_URL.replace(/https:\/\//, ""),
+export interface ShopifyConfig extends Shopify {
+  user?: {
+    webhooks: Array<WebhookSubscription>;
+  };
+}
+
+let shopify: ShopifyConfig = shopifyApi({
+  apiKey: process.env.SHOPIFY_API_KEY!,
+  apiSecretKey: process.env.SHOPIFY_API_SECRET!,
+  scopes: process.env.SHOPIFY_API_SCOPES!.split(","),
+  hostName: process.env.SHOPIFY_APP_URL!.replace(/https:\/\//, ""),
   hostScheme: "https",
-  apiVersion: process.env.SHOPIFY_API_VERSION,
+  apiVersion: process.env.SHOPIFY_API_VERSION! as ApiVersion,
   isEmbeddedApp: true,
   logger: { level: isDev ? LogSeverity.Info : LogSeverity.Error },
 });
-
 /*
   Template for adding new topics:
   ```

@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
-import shopify from "../utils/shopify.js";
+import shopify, { ShopifyConfig } from "@/utils/shopify";
+import { AppConfig, WebhookSubscription } from "./types";
+import { WebhookTopic } from "./types/webhookTopics";
 
 /**
  * @typedef {Object} ApiEndpoint
@@ -1093,22 +1095,32 @@ const topicsAndScopes = [
   },
 ];
 
-const webhookWriter = (config) => {
-  let subscriptionsArray = [];
-  for (const entry in shopify.user.webhooks) {
-    const subscription = {
-      topics: shopify.user.webhooks[entry].topics,
-      uri: shopify.user.webhooks[entry].url.startsWith("/api/webhooks/")
-        ? `${process.env.SHOPIFY_APP_URL}${shopify.user.webhooks[entry].url}`
-        : shopify.user.webhooks[entry].url,
+const webhookWriter = (config: AppConfig) => {
+  let subscriptionsArray: WebhookSubscription[] = [];
+
+  const shopifyUser = shopify.user as ShopifyConfig["user"];
+
+  if (!shopifyUser) {
+    return;
+  }
+
+  for (const entry in shopifyUser.webhooks) {
+    const webhookEntry = shopifyUser.webhooks[entry];
+
+    const subscription: WebhookSubscription = {
+      topics: webhookEntry.topics,
+      url: webhookEntry.url,
+      uri: webhookEntry.url.startsWith("/api/webhooks/")
+        ? `${process.env.SHOPIFY_APP_URL}${webhookEntry.url}`
+        : webhookEntry.url,
     };
 
-    if (shopify.user.webhooks[entry].include_fields) {
-      subscription.include_fields = shopify.user.webhooks[entry].include_fields;
+    if (webhookEntry.include_fields) {
+      subscription.include_fields = webhookEntry.include_fields;
     }
 
-    if (shopify.user.webhooks[entry].filter) {
-      subscription.filter = shopify.user.webhooks[entry].filter;
+    if (webhookEntry.filter) {
+      subscription.filter = webhookEntry.filter;
     }
 
     subscriptionsArray.push(subscription);
@@ -1119,9 +1131,10 @@ const webhookWriter = (config) => {
   writeToApi();
 };
 
-const shopifyFilePath = path.join(process.cwd(), "utils", "shopify.js");
+const shopifyFilePath = path.join(process.cwd(), "src", "utils", "shopify.js");
 const webhookTopicFilePath = path.join(
   process.cwd(),
+  "src",
   "pages",
   "api",
   "webhooks",
@@ -1177,8 +1190,15 @@ async function writeToApi() {
     webhookTopicFileContent = newFileContent + mainContent;
 
     // Check for duplicate topics
-    const topicCounts = {};
-    shopify.user.webhooks.forEach((webhook) => {
+    const topicCounts = {} as Record<WebhookTopic, number>;
+
+    const shopifyUser = shopify.user as ShopifyConfig["user"];
+
+    if (!shopifyUser) {
+      return;
+    }
+
+    shopifyUser.webhooks.forEach((webhook) => {
       webhook.topics.forEach((topic) => {
         topicCounts[topic] = (topicCounts[topic] || 0) + 1;
       });
@@ -1193,9 +1213,9 @@ async function writeToApi() {
       ? "switch (req.url) {\n"
       : "switch (validateWebhook.topic) {\n";
 
-    for (const entry of shopify.user.webhooks) {
+    for (const entry of shopifyUser.webhooks) {
       if (entry.url.startsWith("/api/webhooks")) {
-        const handlerName = entry.callback.name;
+        const handlerName = entry.callback?.name;
         if (hasDuplicateTopics) {
           switchCaseStatement += `  case "${entry.url}":\n`;
           switchCaseStatement += `    await ${handlerName}(validateWebhook.topic, shop, rawBody, webhookId, apiVersion);\n`;
