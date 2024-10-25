@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { RequestedTokenType, Session } from "@shopify/shopify-api";
 import sessionHandler from "@/utils/sessionHandler";
 import shopify from "@/utils/shopify";
@@ -7,7 +7,7 @@ import validateJWT from "@/utils/validateJWT";
 const verifyRequest = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  next: NextApiHandler
+  next: () => Promise<void>
 ) => {
   try {
     const authHeader = req.headers["authorization"];
@@ -47,10 +47,9 @@ const verifyRequest = async (
       session = await getSession({ shop, authHeader });
     }
 
-    req.user_session = session!;
-    req.user_shop = session!.shop;
+    console.log("session", session);
 
-    await next(req, res);
+    await next();
 
     return;
   } catch (e) {

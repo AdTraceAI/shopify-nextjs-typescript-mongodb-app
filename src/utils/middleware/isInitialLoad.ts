@@ -3,7 +3,8 @@ import { RequestedTokenType } from "@shopify/shopify-api";
 import sessionHandler from "../sessionHandler";
 import shopify from "../shopify";
 import freshInstall from "../freshInstall";
-import prisma from "../prisma";
+import ShopifyStore from "@/models/shopifyStore";
+import dbConnect from "../mongodb";
 
 const isInitialLoad = async (
   context: NextPageContext
@@ -26,13 +27,12 @@ const isInitialLoad = async (
         requestedTokenType: RequestedTokenType.OnlineAccessToken,
       });
 
+      await dbConnect();
       await sessionHandler.storeSession(offlineSession);
       await sessionHandler.storeSession(onlineSession);
 
-      const isFreshInstall = await prisma.stores.findFirst({
-        where: {
-          shop: onlineSession.shop,
-        },
+      const isFreshInstall = await ShopifyStore.findOne({
+        shop: onlineSession.shop,
       });
 
       if (!isFreshInstall || isFreshInstall?.isActive === false) {

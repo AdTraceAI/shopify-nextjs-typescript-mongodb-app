@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import mongoose from "mongoose";
 
 declare global {
   interface Window {
@@ -9,5 +9,8 @@ declare global {
       resourcePicker?: (options: any) => Promise<any>;
     };
   }
-  var prisma: PrismaClient;
+  var mongoose: {
+    conn: any;
+    promise: Promise<typeof mongoose> | null;
+  };
 }

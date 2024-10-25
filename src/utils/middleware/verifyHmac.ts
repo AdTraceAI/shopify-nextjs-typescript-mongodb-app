@@ -1,11 +1,11 @@
 import crypto from "crypto";
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import shopify from "@/utils/shopify";
 
 const verifyHmac = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  next: NextApiHandler
+  next: () => Promise<void>
 ) => {
   try {
     const generateHash = crypto
@@ -22,7 +22,7 @@ const verifyHmac = async (
     }
 
     if (shopify.auth.safeCompare(generateHash, hmac)) {
-      await next(req, res);
+      await next();
     } else {
       return res
         .status(401)

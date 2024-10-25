@@ -2,8 +2,9 @@
 // `createwebhook` to generate webhook boilerplate
 
 import { ApiVersion } from "@shopify/shopify-api";
-import prisma from "../prisma";
 import { WebhookTopic } from "@/_developer/types/webhookTopics";
+import SessionModel from "@/models/session";
+import ShopifyStore from "@/models/shopifyStore";
 
 export const appUninstallHandler = async (
   topic: string | WebhookTopic,
@@ -16,12 +17,12 @@ export const appUninstallHandler = async (
     /** @type {AppUninstalled} */
     const webhookBody = JSON.parse(webhookRequestBody);
 
-    await prisma.session.deleteMany({ where: { shop } });
-    await prisma.stores.upsert({
-      where: { shop: shop },
-      update: { isActive: false },
-      create: { shop: shop, isActive: false },
-    });
+    await SessionModel.deleteMany({ shop });
+    await ShopifyStore.findOneAndUpdate(
+      { shop },
+      { isActive: false },
+      { upsert: true }
+    );
   } catch (e) {
     console.error(e);
   }

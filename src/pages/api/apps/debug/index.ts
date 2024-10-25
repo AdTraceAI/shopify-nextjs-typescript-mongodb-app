@@ -17,4 +17,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(400).send({ text: "Bad request" });
 };
 
-export default withMiddleware("verifyRequest")(handler);
+export default withMiddleware("verifyRequest", "dbConnectMiddleware")(handler);

@@ -12,6 +12,7 @@ import { ApiVersion } from "@shopify/shopify-api";
 import shopify from "@/utils/shopify";
 import { WebhookTopic } from "@/_developer/types";
 import { appUninstallHandler, productsUpdateHandler } from "@/utils/webhooks";
+import dbConnect from "@/utils/mongodb";
 
 async function buffer(readable: NodeJS.ReadableStream) {
   const chunks = [];
@@ -28,6 +29,8 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(400).send("It ain't POST mate.");
   }
+
+  await dbConnect();
 
   const topic =
     (req.headers["x-shopify-topic"] as WebhookTopic) || "app/uninstalled";

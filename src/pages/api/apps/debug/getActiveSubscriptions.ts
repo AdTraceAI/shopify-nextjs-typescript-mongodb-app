@@ -3,14 +3,15 @@ import clientProvider from "@/utils/clientProvider";
 import withMiddleware from "@/utils/middleware/withMiddleware";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  //false for offline session, true for online session
-  const { client } = await clientProvider.online.graphqlClient({
-    req,
-    res,
-  });
+  try {
+    //false for offline session, true for online session
+    const { client } = await clientProvider.online.graphqlClient({
+      req,
+      res,
+    });
 
-  const response = await client.request(
-    `{
+    const response = await client.request(
+      `{
       appInstallation {
         activeSubscriptions {
           name
@@ -33,9 +34,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
     }`
-  );
+    );
 
-  res.status(200).send(response);
+    res.status(200).send(response);
+  } catch (error) {
+    console.error((error as Error).message);
+    res.status(500).send((error as Error).message);
+  }
 };
 
-export default withMiddleware("verifyRequest")(handler);
+export default withMiddleware("verifyRequest", "dbConnectMiddleware")(handler);

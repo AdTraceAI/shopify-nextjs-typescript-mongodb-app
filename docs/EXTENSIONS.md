@@ -18,7 +18,7 @@ Setting up extensions requires a shake up of the folder structure.
 - Head into `app/package.json` and update `update:config` script to `node _developer/tomlWriter.js && cd .. && shopify app deploy`
 
   - I've tested it to work with `bun` and `npm` or other package managers may cause issue. If CLI doesn't detect your extensions, you can either switch to `bun` or change the `update:config` script to only `node _developer/tomlWriter.js` and run `shopify app deploy` from the root.
-  - More information on this is [available here](https://github.com/kinngh/shopify-nextjs-prisma-app/discussions/53)
+  - More information on this is [available here](https://github.com/AdTraceAI/shopify-nextjs-typescript-mongodb-app/discussions/53)
 
 - Now in your `extension/package.json`, it's great to have this script so it's easier to create new extensions, which will put your extension in `extension/extensions/extension-name`:
 

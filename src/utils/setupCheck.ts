@@ -7,7 +7,7 @@ const setupCheck = () => {
       SHOPIFY_APP_URL: appUrl,
       SHOPIFY_API_VERSION: apiVersion,
       ENCRYPTION_STRING: encString,
-      DATABASE_URL: databaseURL,
+      MONGODB_URI: mongodbURI,
       APP_NAME: appName,
       APP_HANDLE: appHandle,
       APP_PROXY_PREFIX: proxyPrefix,
@@ -35,7 +35,7 @@ const setupCheck = () => {
       throw Error("---> Encryption String is undefined.");
     }
 
-    if (typeof databaseURL === "undefined") {
+    if (typeof mongodbURI === "undefined") {
       throw Error("---> Database string is undefined.");
     }
 
