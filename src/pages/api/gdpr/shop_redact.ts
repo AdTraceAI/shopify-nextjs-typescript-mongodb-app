@@ -19,4 +19,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withMiddleware("verifyHmac", "dbConnect")(handler);
+export default withMiddleware("verifyHmac", "dbConnectMiddleware")(handler);

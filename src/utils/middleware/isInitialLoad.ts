@@ -4,6 +4,7 @@ import sessionHandler from "../sessionHandler";
 import shopify from "../shopify";
 import freshInstall from "../freshInstall";
 import ShopifyStore from "@/models/shopifyStore";
+import dbConnect from "../mongodb";
 
 const isInitialLoad = async (
   context: NextPageContext
@@ -26,6 +27,7 @@ const isInitialLoad = async (
         requestedTokenType: RequestedTokenType.OnlineAccessToken,
       });
 
+      await dbConnect();
       await sessionHandler.storeSession(offlineSession);
       await sessionHandler.storeSession(onlineSession);
 

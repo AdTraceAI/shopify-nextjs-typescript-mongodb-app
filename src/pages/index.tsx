@@ -113,35 +113,6 @@ const HomePage = () => {
               </BlockStack>
             </Card>
           </Layout.Section>
-          <Layout.Section variant="oneHalf">
-            <Card>
-              <BlockStack gap="200">
-                <Text as="h2" variant="headingMd">
-                  Course
-                </Text>
-                <Text as="p">
-                  [BETA] I'm building course as a live service on How To Build
-                  Shopify Apps
-                </Text>
-                <InlineStack wrap={false} align="end">
-                  <Button
-                    external
-                    variant="primary"
-                    icon={ExternalIcon}
-                    onClick={() => {
-                      open(
-                        "https://kinngh.gumroad.com/l/how-to-make-shopify-apps?utm_source=boilerplate&utm_medium=nextjs",
-                        "_blank"
-                      );
-                    }}
-                  >
-                    Buy
-                  </Button>
-                </InlineStack>
-              </BlockStack>
-            </Card>
-          </Layout.Section>
-          <Layout.Section variant="oneHalf" />
         </Layout>
       </Page>
     </>

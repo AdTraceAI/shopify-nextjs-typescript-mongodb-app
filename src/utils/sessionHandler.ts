@@ -1,17 +1,22 @@
 import { Session } from "@shopify/shopify-api";
 import cryption from "./cryption";
-import dbConnect from "./mongodb";
 import SessionModel from "@/models/session";
 
 /**
  * Stores the session data in the database.
  */
 const storeSession = async (session: Session) => {
-  await SessionModel.create({
-    id: session.id,
-    content: cryption.encrypt(JSON.stringify(session)),
-    shop: session.shop,
-  });
+  await SessionModel.findOneAndUpdate(
+    { id: session.id },
+    {
+      content: cryption.encrypt(JSON.stringify(session)),
+      shop: session.shop,
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
 
   return true;
 };
@@ -20,7 +25,7 @@ const storeSession = async (session: Session) => {
  * Loads the session data from the database.
  */
 const loadSession = async (id: string) => {
-  const sessionResult = await SessionModel.findById(id);
+  const sessionResult = await SessionModel.findOne({ id });
 
   if (sessionResult === null) {
     return undefined;

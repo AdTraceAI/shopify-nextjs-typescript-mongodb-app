@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 declare global {
   interface Window {
     shopify?: {

@@ -1,10 +1,10 @@
 import crypto from "crypto";
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const verifyProxy = async (
   req: NextApiRequest,
   res: NextApiResponse,
-  next: NextApiHandler
+  next: () => Promise<void>
 ) => {
   const { signature, shop } = req.query;
 
@@ -30,7 +30,7 @@ const verifyProxy = async (
 
   if (calculatedSignature === signature) {
     req.user_shop = shop as string; //myshopify domain
-    await next(req, res);
+    await next();
   } else {
     return res.status(401).send({
       success: false,
