@@ -18,8 +18,6 @@ export const captureStoreInfo = async (shopifyStore: IShopifyStoreDocument) => {
       throw new Error("No shop info found");
     }
 
-    console.log("shopInfo", shopInfo.data.shop);
-
     await ShopifyStore.updateOne(
       { shop: shopifyStore.shop },
       { $set: { shopInfo: shopInfo.data.shop } }
