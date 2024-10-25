@@ -14,7 +14,7 @@ export const handleFreshInstall = async (session: Session) => {
   try {
     console.log("This is a fresh install, running onboarding functions");
 
-    const shopifyStore =
+    captureStoreInfo(
       await ShopifyStore.findOneAndUpdate<IShopifyStoreDocument>(
         { shop: session.shop },
         {
@@ -23,9 +23,8 @@ export const handleFreshInstall = async (session: Session) => {
           accessToken: session.accessToken,
         },
         { upsert: true, new: true }
-      );
-
-    captureStoreInfo(shopifyStore);
+      )
+    );
   } catch (e) {
     console.error(
       `---> An error occurred in handleFreshInstall function: ${(e as Error).message}`,
