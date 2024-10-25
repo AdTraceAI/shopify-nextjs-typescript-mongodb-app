@@ -26,6 +26,9 @@ export const storeSchema = new mongoose.Schema<IShopifyStoreDocument>(
         type: [
           {
             url: { type: String, required: true },
+            id: { type: String, required: true },
+            host: { type: String, required: true },
+            sslEnabled: { type: Boolean, required: true },
           },
         ],
         required: true,
@@ -41,6 +44,7 @@ export const storeSchema = new mongoose.Schema<IShopifyStoreDocument>(
       shopOwnerName: { type: String, required: true },
       updatedAt: { type: String, required: true },
       url: { type: String, required: true },
+      currencyCode: { type: String, required: true },
     },
   },
   {

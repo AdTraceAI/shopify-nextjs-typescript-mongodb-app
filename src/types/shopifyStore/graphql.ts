@@ -1,6 +1,10 @@
 export interface IShopifyStoreDomain {
   url: string;
+  id: string;
+  host: string;
+  sslEnabled: boolean;
 }
+
 export interface IShopifyStorePlan {
   displayName: string;
   partnerDevelopment: boolean;
@@ -20,5 +24,6 @@ export interface IShopifyStoreInfoGraphQLData {
     shopOwnerName: string;
     updatedAt: string;
     url: string;
+    currencyCode: string;
   };
 }

@@ -8,6 +8,9 @@ export const SHOPIFY_STORE_INFO_QUERY = `{
     myshopifyDomain
     domains {
       url
+      id
+      host
+      sslEnabled
     }
     plan {
       displayName
@@ -17,5 +20,6 @@ export const SHOPIFY_STORE_INFO_QUERY = `{
     shopOwnerName
     updatedAt
     url
+    currencyCode
   }
 }`;
