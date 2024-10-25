@@ -72,7 +72,7 @@ export interface WebhookSubscription {
   topics: WebhookTopic[];
   url: string;
   uri?: string;
-  callback?: NextApiHandler;
+  callback?: Function;
   filter?: string;
   include_fields?: string[];
 }

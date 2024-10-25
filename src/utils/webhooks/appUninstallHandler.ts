@@ -1,18 +1,16 @@
 // To create a new webhook, create a new `.js` folder in /utils/webhooks/ and use the project snippet
 // `createwebhook` to generate webhook boilerplate
 
-/**
- * @typedef { import("@/_developer/types/2024-10/webhooks.js").APP_UNINSTALLED} AppUninstalled
- */
-
+import { ApiVersion } from "@shopify/shopify-api";
 import prisma from "../prisma.js";
+import { WebhookTopic } from "@/_developer/types/webhookTopics";
 
 const appUninstallHandler = async (
-  topic,
-  shop,
-  webhookRequestBody,
-  webhookId,
-  apiVersion
+  topic: string | WebhookTopic,
+  shop: string,
+  webhookRequestBody: string,
+  webhookId: string,
+  apiVersion: ApiVersion
 ) => {
   try {
     /** @type {AppUninstalled} */
