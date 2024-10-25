@@ -89,7 +89,7 @@ const HomePage = () => {
                     icon={ExternalIcon}
                     onClick={() => {
                       open(
-                        "https://github.com/kinngh/shopify-nextjs-prisma-app/issues?q=is%3Aissue",
+                        "https://github.com/AdTraceAI/shopify-nextjs-typescript-mongodb-app/issues?q=is%3Aissue",
                         "_blank"
                       );
                     }}
@@ -102,7 +102,7 @@ const HomePage = () => {
                     icon={ExternalIcon}
                     onClick={() => {
                       open(
-                        "https://github.com/kinngh/shopify-nextjs-prisma-app",
+                        "https://github.com/AdTraceAI/shopify-nextjs-typescript-mongodb-app",
                         "_blank"
                       );
                     }}

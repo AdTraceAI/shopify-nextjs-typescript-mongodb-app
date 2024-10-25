@@ -1,5 +1,3 @@
-import { PrismaClient } from "@prisma/client";
-
 declare global {
   interface Window {
     shopify?: {
@@ -9,5 +7,8 @@ declare global {
       resourcePicker?: (options: any) => Promise<any>;
     };
   }
-  var prisma: PrismaClient;
+  var mongoose: {
+    conn: any;
+    promise: Promise<typeof mongoose> | null;
+  };
 }

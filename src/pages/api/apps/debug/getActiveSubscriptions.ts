@@ -38,4 +38,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).send(response);
 };
 
-export default withMiddleware("verifyRequest")(handler);
+export default withMiddleware("verifyRequest", "dbConnect")(handler);

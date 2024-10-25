@@ -19,7 +19,7 @@ This is an in-depth guide on using this repo. This goes over getting the base re
   - `SHOPIFY_API_SCOPES`: Scopes required by your Shopify app. A list of access scopes can be found [here](https://shopify.dev/api/usage/access-scopes)
   - `SHOPIFY_APP_URL`: URL generated from Ngrok.
   - `SHOPIFY_API_VERSION`: Pre-filled to the latest version. All the calls in the repo are based off this API version so if you're downgrading please refer to the official docs instead. The repo is always kept up to date with the newest practices so you can rely on the basic repo to almost always work without depriciation errors popping up.
-  - `DATABASE_URL`: Database connection URL. Since we're using Prisma ORM with this repo, it supports SQL and noSQL databases. Read more about it [here](https://www.prisma.io/stack)
+  - `MONGODB_URI`: MongoDB connection URL.
   - `ENCRYPTION_STRING`: String to use for Cryption for encrypting sessions token. Add a random salt (or a random string of letters and numbers) and save it. If you loose the string you cannot decrypt your sessions and must be kept safely.
   - `APP_NAME`: Name of your app, as you've entered in Partner Dashboard.
   - `APP_HANDLE`: The URL handle of your app.
@@ -48,17 +48,6 @@ This is an in-depth guide on using this repo. This goes over getting the base re
   - `shopify`: Run `shopify` commands
   - `update:config`: [Managed Installation] Use the Shopify CLI to update your configuration. Auto writes your `toml` file to root and `extension/` for syncing.
   - `update:url`: [OAuth Installation] Use `@shopify/cli-kit` to update URLs to your Shopify partner dashboard. Requires a proper setup of `.env` file.
-  -
-  - `pg:create`: Create a new folder `database` and init a PostgreSQL instance. Requires you to have postgres installed.
-    - Run `brew install postgresql`
-  - `pg:start`: Start a PostgreSQL instance on `database`. Requires you to run `npm run pg:create` before you can do this.
-  - `pg:stop`: Stop PostgreSQL server.
-  -
-  - `prisma`: Generic command to access `prisma` commands.
-  - `prisma:push`: Push `schema.prisma` to your `DATABASE_URL` database.
-  - `prisma:pull`: Pull database schema from `DATABASE_URL` database and generates a `schema.prisma` file.
-  -
-  - `prepare`: Reserved script to generate `@prisma/client`.
 
 - [ ] Setup Partner Dashboard
 
@@ -81,8 +70,7 @@ This is an in-depth guide on using this repo. This goes over getting the base re
 
 - [ ] Running App
 
-  - If it's your first time connecting to said database, run `npx prisma db push` to get your database working.
-  - Run `npm run dev`, your database and ngrok/cloudflare.
+  - If it's your first time connecting to said database, run `npm run dev`, your database and ngrok/cloudflare.
   - Install the app by heading over to `https://storename.myshopify.com/admin/oauth/install?client_id=SHOPIFY_API_KEY`.
 
 - [ ] Setting up extensions

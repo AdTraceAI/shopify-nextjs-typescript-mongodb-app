@@ -1,19 +1,16 @@
 import { Session } from "@shopify/shopify-api";
 import cryption from "./cryption";
-import prisma from "./prisma";
+import dbConnect from "./mongodb";
+import SessionModel from "@/models/session";
 
+/**
+ * Stores the session data in the database.
+ */
 const storeSession = async (session: Session) => {
-  await prisma.session.upsert({
-    where: { id: session.id },
-    update: {
-      content: cryption.encrypt(JSON.stringify(session)),
-      shop: session.shop,
-    },
-    create: {
-      id: session.id,
-      content: cryption.encrypt(JSON.stringify(session)),
-      shop: session.shop,
-    },
+  await SessionModel.create({
+    id: session.id,
+    content: cryption.encrypt(JSON.stringify(session)),
+    shop: session.shop,
   });
 
   return true;
@@ -21,12 +18,9 @@ const storeSession = async (session: Session) => {
 
 /**
  * Loads the session data from the database.
- *
- * @param {string} id - The session ID.
- * @returns {Promise<Session|undefined>} Returns the Shopify session object or undefined if not found.
  */
 const loadSession = async (id: string) => {
-  const sessionResult = await prisma.session.findUnique({ where: { id } });
+  const sessionResult = await SessionModel.findById(id);
 
   if (sessionResult === null) {
     return undefined;
@@ -40,12 +34,9 @@ const loadSession = async (id: string) => {
 
 /**
  * Deletes the session data from the database.
- *
- * @param {string} id - The session ID.
- * @returns {Promise<boolean>} Returns true if the operation was successful.
  */
 const deleteSession = async (id: string) => {
-  await prisma.session.deleteMany({ where: { id } });
+  await SessionModel.deleteOne({ id });
 
   return true;
 };
