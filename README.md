@@ -1,4 +1,4 @@
-# Shopify Next.js x Prisma Boilerplate
+# Shopify Next.js x TypeScript x MongoDB Template
 
 An embedded app starter template to get up and ready with Shopify app development with Next.js, TypeScript, and MongoDB.
 
