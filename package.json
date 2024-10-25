@@ -3,12 +3,12 @@
   "version": "2024.10.24",
   "type": "module",
   "author": {
-    "name": "Harshdeep Singh Hura",
-    "url": "https://harshdeephura.com"
+    "name": "Galactic Software Applications LLC",
+    "url": "https://adtrace.ai"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kinngh/shopify-nextjs-prisma-app.git"
+    "url": "https://github.com/AdTraceAI/shopify-nextjs-typescript-mongodb-app.git"
   },
   "scripts": {
     "dev": "next dev",
