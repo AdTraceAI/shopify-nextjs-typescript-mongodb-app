@@ -40,7 +40,7 @@ const BillingAPI = () => {
         <Layout.Section>
           <Card>
             <BlockStack gap="200">
-              <Text>
+              <Text as="p">
                 Subscribe your merchant to a test $10.25 plan and redirect to
                 your home page.
               </Text>
@@ -86,13 +86,17 @@ const ActiveSubscriptions = () => {
     } else {
       console.log("Rendering Data");
       Object.entries(activeSubscriptions).map(([key, value]) => {
-        const { name, status, test } = value;
-        const { amount, currencyCode } =
-          value.lineItems[0].plan.pricingDetails.price;
+        const { name, status, test } = value as {
+          name: string;
+          status: string;
+          test: boolean;
+        };
+        const { amount, currencyCode } = (value as any).lineItems[0].plan
+          .pricingDetails.price;
         rowsData.push([name, status, `${test}`, `${currencyCode} ${amount}`]);
       });
     }
-    setRows(rowsData);
+    setRows(rowsData as never[]);
   }
   useEffect(() => {
     getActiveSubscriptions();
@@ -101,7 +105,9 @@ const ActiveSubscriptions = () => {
   return (
     <Card>
       <BlockStack gap="200">
-        <Text fontWeight="bold">Active Subscriptions</Text>
+        <Text as="p" fontWeight="bold">
+          Active Subscriptions
+        </Text>
         <DataTable
           columnContentTypes={["text", "text", "text", "text"]}
           headings={["Plan Name", "Status", "Test", "Amount"]}

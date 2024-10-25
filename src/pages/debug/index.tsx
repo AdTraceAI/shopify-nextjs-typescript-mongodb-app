@@ -26,7 +26,7 @@ const DebugIndex = () => {
                 <Text as="h2" variant="headingMd">
                   Webhooks
                 </Text>
-                <Text>Explored actively registered webhooks</Text>
+                <Text as="p">Explored actively registered webhooks</Text>
                 <InlineStack wrap={false} align="end">
                   <Button
                     variant="primary"
@@ -46,7 +46,7 @@ const DebugIndex = () => {
                 <Text as="h2" variant="headingMd">
                   Data Fetching
                 </Text>
-                <Text>
+                <Text as="p">
                   Send GET, POST and GraphQL queries to your app's backend.
                 </Text>
                 <InlineStack wrap={false} align="end">
@@ -68,7 +68,7 @@ const DebugIndex = () => {
                 <Text as="h2" variant="headingMd">
                   Billing API
                 </Text>
-                <Text>
+                <Text as="p">
                   Subscribe merchant to a plan and explore existing plans.
                 </Text>
                 <InlineStack wrap={false} align="end">
@@ -90,7 +90,9 @@ const DebugIndex = () => {
                 <Text as="h2" variant="headingMd">
                   Resource Picker
                 </Text>
-                <Text>See how to use AppBridge CDN's Resource Picker</Text>
+                <Text as="p">
+                  See how to use AppBridge CDN's Resource Picker
+                </Text>
                 <InlineStack wrap={false} align="end">
                   <Button
                     variant="primary"

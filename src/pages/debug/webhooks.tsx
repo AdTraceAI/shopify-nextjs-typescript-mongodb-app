@@ -19,10 +19,10 @@ const ActiveWebhooks = () => {
   async function fetchWebhooks() {
     const res = await fetch("/api/apps/debug/activeWebhooks");
     const data = await res.json();
-    let rowData = [];
+    let rowData: [string, string][] = [];
     Object.entries(data.data.webhookSubscriptions.edges).map(([key, value]) => {
-      const topic = value.node.topic;
-      const callbackUrl = value.node.endpoint.callbackUrl;
+      const topic = (value as any).node.topic;
+      const callbackUrl = (value as any).node.endpoint.callbackUrl;
       rowData.push([topic, callbackUrl]);
     });
     setRows(rowData);
@@ -54,7 +54,7 @@ const ActiveWebhooks = () => {
                 <Text as="h2" variant="headingMd">
                   Note
                 </Text>
-                <Text>
+                <Text as="p">
                   Webhooks are registered when the app is installed, or when
                   tokens are refetched by going through the authentication
                   process. If your Callback URL isn't the same as your current

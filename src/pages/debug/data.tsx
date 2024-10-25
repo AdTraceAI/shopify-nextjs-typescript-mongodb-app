@@ -10,7 +10,11 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const useDataFetcher = (initialState, url, options) => {
+const useDataFetcher = (
+  initialState: string,
+  url: string,
+  options?: RequestInit
+): [string, () => Promise<void>] => {
   const [data, setData] = useState(initialState);
 
   const fetchData = async () => {
@@ -22,11 +26,21 @@ const useDataFetcher = (initialState, url, options) => {
   return [data, fetchData];
 };
 
-const DataCard = ({ method, url, data, onRefetch }) => (
+const DataCard = ({
+  method,
+  url,
+  data,
+  onRefetch,
+}: {
+  method: string;
+  url: string;
+  data: string;
+  onRefetch: () => void;
+}) => (
   <Layout.Section>
     <Card>
       <BlockStack gap="200">
-        <Text>
+        <Text as="p">
           {method} <code>{url}</code>: {data}
         </Text>
         <InlineStack align="end">

@@ -15,8 +15,8 @@ const ResourcePicker = () => {
   const [initialQuery, setInitialQuery] = useState("");
   const [resourcePickerSelection, setResourcePickerSelection] = useState("");
 
-  async function openResourcePicker(initQuery) {
-    const selected = await window?.shopify?.resourcePicker({
+  async function openResourcePicker(initQuery: string) {
+    const selected = await window?.shopify?.resourcePicker?.({
       type: "product",
       query: initQuery,
       filter: {
@@ -57,10 +57,12 @@ const ResourcePicker = () => {
           <Layout.Section variant="fullWidth">
             <Card>
               <BlockStack gap="200">
-                <Text variant="headingMd">
+                <Text variant="headingMd" as="h2">
                   Start typing to search for a product
                 </Text>
                 <TextField
+                  label="Search"
+                  autoComplete="off"
                   value={initialQuery}
                   onChange={(value) => {
                     setInitialQuery(value);
@@ -85,7 +87,9 @@ const ResourcePicker = () => {
           <Layout.Section>
             <Card>
               <BlockStack gap="200">
-                <Text fontWeight="bold">Selection JSON</Text>
+                <Text fontWeight="bold" as="h2">
+                  Selection JSON
+                </Text>
                 <pre>{resourcePickerSelection}</pre>
               </BlockStack>
             </Card>
