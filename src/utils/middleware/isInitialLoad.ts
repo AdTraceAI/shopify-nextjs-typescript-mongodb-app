@@ -1,10 +1,12 @@
 import { NextPageContext } from "next";
 import { RequestedTokenType } from "@shopify/shopify-api";
-import sessionHandler from "../sessionHandler";
-import shopify from "../shopify";
-import freshInstall from "../freshInstall";
 import ShopifyStore from "@/models/shopifyStore";
+import { ShopifyStoreStatus } from "@/models/shopifyStore/types";
+import { IShopifyStoreDocument } from "@/models/shopifyStore/schema";
+import shopify from "../shopify";
 import dbConnect from "../mongodb";
+import sessionHandler from "../sessionHandler";
+import { handleFreshInstall } from "@/utils/handleFreshInstall";
 
 const isInitialLoad = async (
   context: NextPageContext
@@ -13,8 +15,10 @@ const isInitialLoad = async (
     const shop = context.query.shop as string;
     const idToken = context.query.id_token as string;
 
+    const shouldRunInitialLoad = idToken && shop;
+
     //Initial Load
-    if (idToken && shop) {
+    if (shouldRunInitialLoad) {
       const { session: offlineSession } = await shopify.auth.tokenExchange({
         sessionToken: idToken,
         shop,
@@ -31,14 +35,18 @@ const isInitialLoad = async (
       await sessionHandler.storeSession(offlineSession);
       await sessionHandler.storeSession(onlineSession);
 
-      const isFreshInstall = await ShopifyStore.findOne({
+      const isFreshInstall = await ShopifyStore.findOne<IShopifyStoreDocument>({
         shop: onlineSession.shop,
       });
 
-      if (!isFreshInstall || isFreshInstall?.isActive === false) {
+      if (
+        !isFreshInstall ||
+        isFreshInstall.status === ShopifyStoreStatus.UNINSTALLED
+      ) {
         // !isFreshInstall -> New Install
-        // isFreshInstall?.isActive === false -> Reinstall
-        await freshInstall({ shop: onlineSession.shop });
+        // isFreshInstall?.status === "uninstalled" -> Reinstall
+        // we need to save the offline access token for future consumption
+        await handleFreshInstall(offlineSession);
       }
     } else {
       // The user has visited the page again.

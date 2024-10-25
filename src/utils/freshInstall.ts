@@ -5,16 +5,19 @@
  */
 
 import ShopifyStore from "@/models/shopifyStore";
+import { IShopifyStoreDocument } from "@/models/shopifyStore/schema";
+import { ShopifyStoreStatus } from "@/models/shopifyStore/types";
 
-const freshInstall = async ({ shop }: { shop: string }) => {
+const freshInstall = async (shop: string, accessToken: string) => {
   try {
     console.log("This is a fresh install, running onboarding functions");
 
-    await ShopifyStore.findOneAndUpdate(
+    await ShopifyStore.findOneAndUpdate<IShopifyStoreDocument>(
       { shop: shop },
       {
         shop: shop,
-        isActive: true,
+        status: ShopifyStoreStatus.ACTIVE,
+        accessToken,
       },
       { upsert: true, new: true }
     );

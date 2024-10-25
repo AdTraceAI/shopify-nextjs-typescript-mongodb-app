@@ -5,6 +5,7 @@ import { ApiVersion } from "@shopify/shopify-api";
 import { WebhookTopic } from "@/_developer/types/webhookTopics";
 import SessionModel from "@/models/session";
 import ShopifyStore from "@/models/shopifyStore";
+import { ShopifyStoreStatus } from "@/models/shopifyStore/types";
 
 export const appUninstallHandler = async (
   topic: string | WebhookTopic,
@@ -20,7 +21,7 @@ export const appUninstallHandler = async (
     await SessionModel.deleteMany({ shop });
     await ShopifyStore.findOneAndUpdate(
       { shop },
-      { isActive: false },
+      { status: ShopifyStoreStatus.UNINSTALLED },
       { upsert: true }
     );
   } catch (e) {
