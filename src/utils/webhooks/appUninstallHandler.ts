@@ -2,7 +2,7 @@
 // `createwebhook` to generate webhook boilerplate
 
 import { ApiVersion } from "@shopify/shopify-api";
-import prisma from "../prisma.js";
+import prisma from "../prisma";
 import { WebhookTopic } from "@/_developer/types/webhookTopics";
 
 export const appUninstallHandler = async (

@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 import "@shopify/shopify-api/adapters/node";
-import setupCheck from "./src/utils/setupCheck";
+// import setupCheck from "./src/utils/setupCheck";
 
-setupCheck();
+// setupCheck();
 
 console.log(`--> Running in ${process.env.NODE_ENV} mode`);
 

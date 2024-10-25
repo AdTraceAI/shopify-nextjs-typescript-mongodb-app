@@ -1,14 +1,9 @@
 import crypto from "crypto";
 
-/**
- *
- * Validate your JWT token against the secret.
- *
- * @param {String} token - JWT Token
- * @param {String} secret - Signature secret. By default uses the `process.env.SHOPIFY_API_SECRET` value
- * @returns {Object} Decoded JWT payload.
- */
-function validateJWT(token, secret = process.env.SHOPIFY_API_SECRET) {
+const validateJWT = (
+  token: string,
+  secret = process.env.SHOPIFY_API_SECRET!
+): Record<string, any> => {
   const parts = token.split(".");
   if (parts.length !== 3) {
     throw new Error("JWT: Token structure incorrect");
@@ -37,6 +32,6 @@ function validateJWT(token, secret = process.env.SHOPIFY_API_SECRET) {
   }
 
   return JSON.parse(payloadJson);
-}
+};
 
 export default validateJWT;

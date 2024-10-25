@@ -1,12 +1,9 @@
 //This is the same as `pages/api/index.js`.
 
-import withMiddleware from "@/utils/middleware/withMiddleware.js";
+import { NextApiRequest, NextApiResponse } from "next";
+import withMiddleware from "@/utils/middleware/withMiddleware";
 
-/**
- * @param {import("next").NextApiRequest} req - The HTTP request object.
- * @param {import("next").NextApiResponse} res - The HTTP response object.
- */
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     return res
       .status(200)

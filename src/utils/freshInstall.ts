@@ -11,7 +11,7 @@ import prisma from "./prisma";
  * @param {Object} params - The function parameters container.
  * @param {string} params.shop - The shop URL in the format '*.myshopify.com'.
  */
-const freshInstall = async ({ shop }) => {
+const freshInstall = async ({ shop }: { shop: string }) => {
   try {
     console.log("This is a fresh install, running onboarding functions");
 
@@ -32,7 +32,7 @@ const freshInstall = async ({ shop }) => {
     //Other functions start here
   } catch (e) {
     console.error(
-      `---> An error occured in freshInstall function: ${e.message}`,
+      `---> An error occured in freshInstall function: ${(e as Error).message}`,
       e
     );
   }

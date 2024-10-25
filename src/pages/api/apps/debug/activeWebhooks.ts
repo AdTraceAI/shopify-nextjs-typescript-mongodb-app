@@ -1,11 +1,8 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import clientProvider from "@/utils/clientProvider";
-import withMiddleware from "@/utils/middleware/withMiddleware.js";
+import withMiddleware from "@/utils/middleware/withMiddleware";
 
-/**
- * @param {import("next").NextApiRequest} req - The HTTP request object.
- * @param {import("next").NextApiResponse} res - The HTTP response object.
- */
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
       const { client } = await clientProvider.online.graphqlClient({

@@ -2,7 +2,7 @@
  * Middleware to add Content Security Policy headers to matched requests.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
   matcher: [
@@ -15,28 +15,16 @@ export const config = {
   ],
 };
 
-/**
- * @param {NextRequest} request - The incoming request object.
- * @returns {NextResponse} The response object with modified headers.
- */
-export function middleware(request) {
+export function middleware(request: NextRequest) {
   const {
     nextUrl: { search },
   } = request;
 
-  /**
-   * Convert the query string into an object.
-   * @type {URLSearchParams}
-   */
   const urlSearchParams = new URLSearchParams(search);
   const params = Object.fromEntries(urlSearchParams.entries());
 
   const shop = params.shop || "*.myshopify.com";
 
-  /**
-   * Construct the Next.js response and set the Content-Security-Policy header.
-   * @type {NextResponse}
-   */
   const res = NextResponse.next();
   res.headers.set(
     "Content-Security-Policy",

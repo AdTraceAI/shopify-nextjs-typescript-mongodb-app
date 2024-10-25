@@ -1,4 +1,4 @@
-const AppBridgeProvider = ({ children }) => {
+const AppBridgeProvider = ({ children }: { children: React.ReactNode }) => {
   if (typeof window !== "undefined") {
     const shop = window?.shopify?.config?.shop;
 

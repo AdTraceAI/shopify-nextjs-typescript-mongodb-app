@@ -1,14 +1,8 @@
 import { Session } from "@shopify/shopify-api";
-import cryption from "./cryption.js";
-import prisma from "./prisma.js";
+import cryption from "./cryption";
+import prisma from "./prisma";
 
-/**
- * Stores the session data into the database.
- *
- * @param {Session} session - The Shopify session object.
- * @returns {Promise<boolean>} Returns true if the operation was successful.
- */
-const storeSession = async (session) => {
+const storeSession = async (session: Session) => {
   await prisma.session.upsert({
     where: { id: session.id },
     update: {
@@ -31,13 +25,13 @@ const storeSession = async (session) => {
  * @param {string} id - The session ID.
  * @returns {Promise<Session|undefined>} Returns the Shopify session object or undefined if not found.
  */
-const loadSession = async (id) => {
+const loadSession = async (id: string) => {
   const sessionResult = await prisma.session.findUnique({ where: { id } });
 
   if (sessionResult === null) {
     return undefined;
   }
-  if (sessionResult.content.length > 0) {
+  if (sessionResult.content && sessionResult.content.length > 0) {
     const sessionObj = JSON.parse(cryption.decrypt(sessionResult.content));
     return new Session(sessionObj);
   }
@@ -50,7 +44,7 @@ const loadSession = async (id) => {
  * @param {string} id - The session ID.
  * @returns {Promise<boolean>} Returns true if the operation was successful.
  */
-const deleteSession = async (id) => {
+const deleteSession = async (id: string) => {
   await prisma.session.deleteMany({ where: { id } });
 
   return true;
