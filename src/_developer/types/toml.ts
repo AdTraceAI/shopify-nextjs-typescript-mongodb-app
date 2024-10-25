@@ -6,7 +6,6 @@
  *
  */
 
-import { NextApiHandler } from "next";
 import { WebhookTopic } from "./webhookTopics";
 
 /**
