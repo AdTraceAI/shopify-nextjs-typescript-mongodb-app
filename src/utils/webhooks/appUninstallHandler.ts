@@ -5,7 +5,7 @@ import { ApiVersion } from "@shopify/shopify-api";
 import prisma from "../prisma.js";
 import { WebhookTopic } from "@/_developer/types/webhookTopics";
 
-const appUninstallHandler = async (
+export const appUninstallHandler = async (
   topic: string | WebhookTopic,
   shop: string,
   webhookRequestBody: string,
@@ -26,5 +26,3 @@ const appUninstallHandler = async (
     console.error(e);
   }
 };
-
-export default appUninstallHandler;

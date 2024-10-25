@@ -5,9 +5,8 @@ import {
   ApiVersion,
 } from "@shopify/shopify-api";
 import "@shopify/shopify-api/adapters/node";
-import appUninstallHandler from "./webhooks/appUninstallHandler";
 import { WebhookSubscription } from "@/_developer/types";
-import { NextApiHandler } from "next";
+import { appUninstallHandler, productsUpdateHandler } from "./webhooks";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -44,20 +43,16 @@ let shopify: ShopifyConfig = shopifyApi({
 shopify = {
   ...shopify,
   user: {
-    /**
-     * @type {Array<{
-     *   topics: import("@/_developer/types/webhookTopics.js").WebhookTopics["topic"],
-     *   url: string,
-     *   callback: Function,
-     *   filter?: string,
-     *   include_fields?: string[]
-     * }>}
-     */
     webhooks: [
       {
         topics: ["app/uninstalled"],
         url: "/api/webhooks/app_uninstalled",
         callback: appUninstallHandler,
+      },
+      {
+        topics: ["products/update"],
+        url: "/api/webhooks/products_update",
+        callback: productsUpdateHandler,
       },
     ],
   },

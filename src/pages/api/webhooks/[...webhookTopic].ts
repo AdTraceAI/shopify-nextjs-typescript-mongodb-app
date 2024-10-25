@@ -11,7 +11,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ApiVersion } from "@shopify/shopify-api";
 import shopify from "@/utils/shopify";
 import { WebhookTopic } from "@/_developer/types";
-import appUninstallHandler from "@/utils/webhooks/appUninstallHandler";
+import { appUninstallHandler, productsUpdateHandler } from "@/utils/webhooks";
 
 async function buffer(readable: NodeJS.ReadableStream) {
   const chunks = [];
@@ -54,6 +54,15 @@ export default async function handler(
     switch (validateWebhook.topic) {
       case "APP_UNINSTALLED":
         await appUninstallHandler(
+          validateWebhook.topic,
+          shop,
+          rawBody,
+          webhookId,
+          apiVersion
+        );
+        break;
+      case "PRODUCTS_UPDATE":
+        await productsUpdateHandler(
           validateWebhook.topic,
           shop,
           rawBody,

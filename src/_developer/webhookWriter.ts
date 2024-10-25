@@ -1144,8 +1144,9 @@ const webhookTopicFilePath = path.join(
 async function writeToApi() {
   try {
     const shopifyFileContent = fs.readFileSync(shopifyFilePath, "utf8");
+
     const webhookImports = shopifyFileContent.match(
-      /import .* from "\.\/webhooks\/.*";/g
+      /import\s*{[^}]*}\s*from\s*["']\.\/webhooks["'];/g
     );
 
     let webhookTopicFileContent = fs.readFileSync(webhookTopicFilePath, "utf8");
